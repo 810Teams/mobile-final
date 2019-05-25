@@ -4,6 +4,7 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:mobilefinal/gui/homepage.dart';
 import 'package:mobilefinal/model/account.dart';
 import 'package:mobilefinal/util/alert.dart';
@@ -24,16 +25,23 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    this._database.open();
-    SharedPreferencesUtil.loadUserId().then((value) {
-      if (value != null) {
-        this._database.getAccountByUserId(value).then((account) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Homepage(account)),
-          );
-        });
-      }
+
+    // Step #1: Open database
+    this._database.open().then((_) {
+      // Step #2: Try loading user ID from shared preferences
+      SharedPreferencesUtil.loadUserId().then((value) {
+        // Step #3: Check if user ID is not null
+        if (value != null) {
+          // Step #4: Wait for complete build
+          SchedulerBinding.instance.addPostFrameCallback((__) {
+            // Step #5: Get account data from SQFLite with specific user ID
+            this._database.getAccountByUserId(value).then((account) {
+              // Step #6: Push to homepage
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Homepage(account)));
+            });
+          });
+        }
+      });
     });
   }
 
