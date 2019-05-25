@@ -26,7 +26,9 @@ class _HomepageState extends State<Homepage> {
   void refreshState() {
     SharedPreferencesUtil.loadName().then((value) {
       setState(() {
-        this._currentName = value;
+        if (value != null) {
+          this._currentName = value;
+        }
       });
     });
 
