@@ -145,6 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       data: _controllerQuote.text,
                     );
                     this._database.update(widget._account).then((_) {
+                      SharedPreferencesUtil.saveUserId(_controllerUserId.text);
+                      SharedPreferencesUtil.saveName(_controllerName.text);
                       widget._refreshState();
                       Navigator.pop(context);
                     });
