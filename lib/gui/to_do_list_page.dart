@@ -47,6 +47,7 @@ class _ToDoListPageState extends State<ToDoListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Todos'),
+        centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[

@@ -4,35 +4,45 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:mobilefinal/gui/homepage.dart';
 import 'package:mobilefinal/model/account.dart';
 import 'package:mobilefinal/util/alert.dart';
 import 'package:mobilefinal/util/shared_preferences_util.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
+}
+
+class _LoginPageState extends State<LoginPage> {
   final AccountProvider _database = AccountProvider();
   static final TextEditingController _controllerUserId = TextEditingController();
   static final TextEditingController _controllerPassword = TextEditingController();
 
-  LoginPage() {
-    this._database.open();
-  //   // Step #1: Open database
-  // this._database.open().then((_) {
-  //   // Step #2: Try loading user ID from shared preferences
-  //   SharedPreferencesUtil.loadUserId().then((value) {
-  //     // Step #3: Check if user ID is not null
-  //     if (value != null) {
-  //       // Step #4: Wait for complete build
-  //       SchedulerBinding.instance.addPostFrameCallback((__) {
-  //         // Step #5: Get account data from SQFLite with specific user ID
-  //         this._database.getAccountByUserId(value).then((account) {
-  //           // Step #6: Push to homepage
-  //           Navigator.push(context, MaterialPageRoute(builder: (context) => Homepage(account)));
-  //         });
-  //       });
-  //     }
-  //   });
-  // });
+  @override
+  void initState() {
+    super.initState();
+
+    // Step #1: Open database
+    this._database.open().then((_) {
+      // Step #2: Try loading user ID from shared preferences
+      SharedPreferencesUtil.loadUserId().then((value) {
+        // Step #3: Check if user ID is not null
+        if (value != null) {
+          // Step #4: Wait for complete build
+          SchedulerBinding.instance.addPostFrameCallback((__) {
+            // Step #5: Get account data from SQFLite with specific user ID
+            this._database.getAccountByUserId(value).then((account) {
+              // Step #6: Push to homepage
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homepage(account)));
+            });
+          });
+        }
+      });
+    });
   }
 
   @override
@@ -94,7 +104,7 @@ class LoginPage extends StatelessWidget {
                       this._database.getAccountByUserId(_controllerUserId.text).then((value) {
                         // Logic: Save before push
                         SharedPreferencesUtil.saveName(value.name);
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => Homepage(account)),
                         );

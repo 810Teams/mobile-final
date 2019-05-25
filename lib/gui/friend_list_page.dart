@@ -46,6 +46,7 @@ class _FriendListPageState extends State<FriendListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Friend List'),
+        centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[

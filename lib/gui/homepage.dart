@@ -24,6 +24,7 @@ class _HomepageState extends State<Homepage> {
   String _currentQuote = '';
 
   void refreshState() {
+    // Loads name from shared preferences
     SharedPreferencesUtil.loadName().then((value) {
       setState(() {
         if (value != null) {
@@ -32,6 +33,7 @@ class _HomepageState extends State<Homepage> {
       });
     });
 
+    // Loads quote from shared preferences
     SharedPreferencesUtil.getFileContent(fileName: 'quote.txt').then((value) {
       setState(() {
         this._currentQuote = value;
@@ -50,6 +52,7 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[
@@ -61,7 +64,7 @@ class _HomepageState extends State<Homepage> {
           ),
           SizedBox(height: 10.0),
           Text(
-            'This is my quote "' + this._currentQuote + '".',
+            this._currentQuote,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 18, color: Colors.grey[700]),
           ),
