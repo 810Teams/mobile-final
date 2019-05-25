@@ -1,7 +1,7 @@
 ///
 /// `shared_preferences_util.dart`
 /// Class contains shared preferences and file reading/writing methods
-/// Source: Copied from other sources.
+/// Source: Reading docs and copied from them.
 /// 
 
 import 'dart:io';

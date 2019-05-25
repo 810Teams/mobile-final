@@ -1,7 +1,7 @@
 ///
 /// `custom.dart`
 /// Class contains custom component designs
-/// Source: Copied from my own project, MedicCare.
+/// Source: Copied from my own project, MedicCare. (https://github.com/itforge-eros/MedicCare)
 ///
 
 import 'package:flutter/material.dart';

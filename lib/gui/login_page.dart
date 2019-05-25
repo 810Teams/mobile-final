@@ -1,6 +1,5 @@
 ///
 /// `login_page.dart`
-/// Source: Mostly copied from my own flutter_assignment
 ///
 
 import 'package:flutter/material.dart';

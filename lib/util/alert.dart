@@ -1,7 +1,7 @@
 ///
 /// `alert.dart`
 /// Utility class contains alerts
-/// Source: Copied from my own project, MedicCare.
+/// Source: Copied from my own project, MedicCare. (https://github.com/itforge-eros/MedicCare)
 ///
 
 import 'package:flutter/material.dart';
