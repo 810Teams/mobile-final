@@ -20,9 +20,16 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  String _currentName = '';
   String _currentQuote = '';
 
   void refreshState() {
+    SharedPreferencesUtil.loadName().then((value) {
+      setState(() {
+        this._currentName = value;
+      });
+    });
+
     SharedPreferencesUtil.getFileContent(fileName: 'quote.txt').then((value) {
       setState(() {
         this._currentQuote = value;
@@ -46,7 +53,7 @@ class _HomepageState extends State<Homepage> {
         children: <Widget>[
           SizedBox(height: 20.0),
           Text(
-            'Hello ' + widget._account.name,
+            'Hello ' + this._currentName,
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.grey[700]),
           ),

@@ -1,14 +1,13 @@
 ///
 /// `custom.dart`
-/// Class contains custom designs
-/// Mostly copied from other sources
+/// Class contains custom component designs
+/// Source: Copied from my own project, MedicCare.
 ///
 
 import 'package:flutter/material.dart';
 
 class Custom {
   // Utility Method: Returns Custom List Tile
-  // Source: Copied from project
   static ListTile getCustomListTile(
     context, {
     String name,
@@ -34,7 +33,6 @@ class Custom {
   }
 
   // Utility Method: Returns custom card
-  // Source: Copied from project
   static Card getCustomCard(
     context, {
     String name,
