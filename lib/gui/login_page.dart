@@ -1,7 +1,7 @@
 ///
 /// `login_page.dart`
 /// Source: Mostly copied from my own flutter_assignment
-/// 
+///
 
 import 'package:flutter/material.dart';
 import 'package:mobilefinal/gui/homepage.dart';
@@ -9,15 +9,32 @@ import 'package:mobilefinal/model/account.dart';
 import 'package:mobilefinal/util/alert.dart';
 import 'package:mobilefinal/util/shared_preferences_util.dart';
 
-class LoginPage extends StatelessWidget {
-  final AccountProvider _database = AccountProvider();
-  static final TextEditingController _controllerUserId =
-      TextEditingController();
-  static final TextEditingController _controllerPassword =
-      TextEditingController();
+class LoginPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
+}
 
-  LoginPage() {
+class _LoginPageState extends State<LoginPage> {
+  final AccountProvider _database = AccountProvider();
+  static final TextEditingController _controllerUserId = TextEditingController();
+  static final TextEditingController _controllerPassword = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
     this._database.open();
+    SharedPreferencesUtil.loadUserId().then((value) {
+      if (value != null) {
+        this._database.getAccountByUserId(value).then((account) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Homepage(account)),
+          );
+        });
+      }
+    });
   }
 
   @override
@@ -59,20 +76,15 @@ class LoginPage extends StatelessWidget {
               textColor: Colors.white,
               onPressed: () {
                 _controllerUserId.text = _controllerUserId.text.trim();
-                if (_controllerUserId.text.isEmpty ||
-                    _controllerPassword.text.isEmpty) {
+                if (_controllerUserId.text.isEmpty || _controllerPassword.text.isEmpty) {
                   Alert.displayAlert(
                     context,
                     title: 'Login Failed',
                     content: 'Please fill out the login form.',
                   );
                 } else {
-                  this
-                      ._database
-                      .getAccountByUserId(_controllerUserId.text)
-                      .then((account) {
-                    if (account == null ||
-                        _controllerPassword.text != account.password) {
+                  this._database.getAccountByUserId(_controllerUserId.text).then((account) {
+                    if (account == null || _controllerPassword.text != account.password) {
                       Alert.displayAlert(
                         context,
                         title: 'Login Failed',
@@ -81,17 +93,13 @@ class LoginPage extends StatelessWidget {
                     } else {
                       SharedPreferencesUtil.saveUserId(_controllerUserId.text);
 
-                      this
-                          ._database
-                          .getAccountByUserId(_controllerUserId.text)
-                          .then((value) {
-                            SharedPreferencesUtil.saveName(value.name);
-                          });
+                      this._database.getAccountByUserId(_controllerUserId.text).then((value) {
+                        SharedPreferencesUtil.saveName(value.name);
+                      });
 
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => Homepage(account)),
+                        MaterialPageRoute(builder: (context) => Homepage(account)),
                       );
                     }
                   });
