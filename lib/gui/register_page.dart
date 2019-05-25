@@ -1,6 +1,6 @@
 ///
 /// `register_page.dart`
-///
+/// 
 
 import 'package:flutter/material.dart';
 import 'package:mobilefinal/model/account.dart';
@@ -96,6 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   hintText: 'Password',
                 ),
                 validator: (String value) {
+                  // NOTES: The exam said the password length must be *more than 6*
                   if (value.length <= 6) {
                     return 'Password must be more than 6 characters long';
                   }
@@ -103,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               SizedBox(height: 20.0),
               RaisedButton(
-                child: Text("CONTINUE"),
+                child: Text("Register New Account".toUpperCase()),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
                 onPressed: () {

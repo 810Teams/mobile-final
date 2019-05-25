@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                   Alert.displayAlert(
                     context,
                     title: 'Login Failed',
-                    content: 'Please fill out the login form.',
+                    content: 'Please fill out this form.',
                   );
                 } else {
                   this._database.getAccountByUserId(_controllerUserId.text).then((account) {
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                       Alert.displayAlert(
                         context,
                         title: 'Login Failed',
-                        content: 'Incorrect user ID or password.',
+                        content: 'Invalid user or password.',
                       );
                     } else {
                       SharedPreferencesUtil.saveUserId(_controllerUserId.text);
